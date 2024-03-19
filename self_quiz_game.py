@@ -1,63 +1,84 @@
 import tkinter as tk
 from tkinter import messagebox
 
-class QuizGame:
-    def __init__(self, master):
-        self.master = master
-        self.master.title("True or False Quiz Game")
-        
+class QuizApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("True or False Quiz")
+        self.root.geometry("400x300")  # Fixed size window
+        self.root.configure(bg="white")
+
         self.questions = [
-            {"statement": "Tristyn has been bitten by a baby rattlesnake.", "answer": True},
-            {"statement": "Tristyn wrestled a bear once.", "answer": False},
-            {"statement": "Tristyn loves to problem solve.", "answer": True},
-            {"statement": "Tristyn is fascinated by AI.", "answer": True},
-            {"statement": "Tristyn is a dedicated and creative team player.", "answer": True}
+            ("Tristyn has been bitten by a baby rattlesnake.", True),
+            ("Tristyn wrestled a bear once.", False),
+            ("Tristyn loves to problem solve.", True),
+            ("Tristyn is fascinated by AI.", True),
+            ("Tristyn is a dedicated and creative team player.", True)
         ]
-        
         self.current_question_index = 0
         self.score = 0
-        
-        self.label = tk.Label(master, text=self.questions[self.current_question_index]["statement"])
-        self.label.pack()
-        
-        self.true_button = tk.Button(master, text="True", command=lambda: self.check_answer(True))
-        self.true_button.pack()
-        
-        self.false_button = tk.Button(master, text="False", command=lambda: self.check_answer(False))
-        self.false_button.pack()
-        
-        self.next_button = tk.Button(master, text="Next", command=self.next_question)
-        self.next_button.pack()
-    
-    def check_answer(self, user_answer):
-        correct_answer = self.questions[self.current_question_index]["answer"]
-        if user_answer == correct_answer:
+
+        self.question_label = tk.Label(self.root, text="", wraplength=380, bg="white")
+        self.question_label.pack(pady=20)
+
+        self.true_button = tk.Button(self.root, text="True", command=self.check_true)
+        self.true_button.pack(side="left", padx=20)
+
+        self.false_button = tk.Button(self.root, text="False", command=self.check_false)
+        self.false_button.pack(side="right", padx=20)
+
+        self.next_button = tk.Button(self.root, text="Next", command=self.next_question)
+        self.next_button.pack(pady=20)
+        self.next_button.pack_forget()  # Hide the Next button initially
+
+        self.display_question()  # Display the first question
+
+    def display_question(self):
+        question_text = self.questions[self.current_question_index][0]
+        self.question_label.config(text=question_text)
+
+    def check_true(self):
+        self.evaluate_answer(True)
+
+    def check_false(self):
+        self.evaluate_answer(False)
+
+    def evaluate_answer(self, selected_answer):
+        correct_answer = self.questions[self.current_question_index][1]
+        if selected_answer == correct_answer:
             self.score += 1
-            messagebox.showinfo("Correct", "You got it right!")
+            messagebox.showinfo("Correct", "Correct! Good job!")
         else:
-            messagebox.showinfo("Incorrect", "Sorry, the correct answer is {}.".format(correct_answer))
-    
+            messagebox.showerror("Incorrect", "Nope, nice try!")
+
+        # Show the Next button after an answer is selected
+        self.next_button.pack(pady=20)
+        self.true_button.config(state="disabled")
+        self.false_button.config(state="disabled")
+
     def next_question(self):
         self.current_question_index += 1
         if self.current_question_index < len(self.questions):
-            self.label.config(text=self.questions[self.current_question_index]["statement"])
+            self.display_question()
+            # Hide the Next button again for the next question
+            self.next_button.pack_forget()
+            self.true_button.config(state="normal")
+            self.false_button.config(state="normal")
         else:
-            self.show_result()
-    
-    def show_result(self):
-        result_message = ""
-        if self.score == 5:
-            result_message = "Great job!"
-        elif self.score >= 3:
-            result_message = "Better luck next time!"
-        else:
-            result_message = "Maybe try again?"
-        messagebox.showinfo("Quiz Finished", "{} Your score: {}/5".format(result_message, self.score))
+            self.show_results()
 
-def main():
-    root = tk.Tk()
-    app = QuizGame(root)
-    root.mainloop()
+    def show_results(self):
+        message = f"You scored {self.score}/5."
+        if self.score >= 4:
+            message += " Great job!"
+        elif self.score >= 3:
+            message += " Better luck next time!"
+        else:
+            message += " Maybe try again?"
+        messagebox.showinfo("Quiz Complete", message)
+        self.root.destroy()
 
 if __name__ == "__main__":
-    main()
+    root = tk.Tk()
+    app = QuizApp(root)
+    root.mainloop()
