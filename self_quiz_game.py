@@ -6,7 +6,7 @@ class QuizApp:
         self.root = root
         self.root.title("True or False Quiz")
         self.root.geometry("400x300")  # Fixed size window
-        self.root.configure(bg="white")
+        self.root.configure(bg="#f0f0f0")  # Set background color
 
         self.questions = [
             ("Tristyn has been bitten by a baby rattlesnake.", True),
@@ -18,16 +18,16 @@ class QuizApp:
         self.current_question_index = 0
         self.score = 0
 
-        self.question_label = tk.Label(self.root, text="", wraplength=380, bg="white")
+        self.question_label = tk.Label(self.root, text="", wraplength=380, bg="#f0f0f0", fg="#333333", font=("Arial", 12))
         self.question_label.pack(pady=20)
 
-        self.true_button = tk.Button(self.root, text="True", command=self.check_true)
+        self.true_button = tk.Button(self.root, text="True", command=self.check_true, bg="#b8d8d8", fg="#333333", font=("Arial", 10))
         self.true_button.pack(side="left", padx=20)
 
-        self.false_button = tk.Button(self.root, text="False", command=self.check_false)
+        self.false_button = tk.Button(self.root, text="False", command=self.check_false, bg="#b8d8d8", fg="#333333", font=("Arial", 10))
         self.false_button.pack(side="right", padx=20)
 
-        self.next_button = tk.Button(self.root, text="Next", command=self.next_question)
+        self.next_button = tk.Button(self.root, text="Next", command=self.next_question, bg="#b8d8d8", fg="#333333", font=("Arial", 10))
         self.next_button.pack(pady=20)
         self.next_button.pack_forget()  # Hide the Next button initially
 
