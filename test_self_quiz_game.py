@@ -37,7 +37,7 @@ class TestQuizApp(unittest.TestCase):
         self.app.next_question()
         self.assertEqual(self.app.current_question_index, 1)
 
-    def test_show_results(self):
+    def test_show_results_3_correct(self):
         self.app.score = 3
         self.app.show_results()
         expected_message = "You scored 3/5. Better luck next time!"
@@ -51,28 +51,28 @@ class TestQuizApp(unittest.TestCase):
         actual_message = self.app.question_label.cget("text")
         self.assertEqual(actual_message, expected_message)
 
-    def test_show_results_0_correct(self):
+    def test_show_results_1_correct(self):
         self.app.score = 1
         self.app.show_results()
         expected_message = "You scored 1/5. Maybe try again?"
         actual_message = self.app.question_label.cget("text")
         self.assertEqual(actual_message, expected_message)
 
-    def test_show_results_0_correct(self):
+    def test_show_results_2_correct(self):
         self.app.score = 2
         self.app.show_results()
         expected_message = "You scored 2/5. Maybe try again?"
         actual_message = self.app.question_label.cget("text")
         self.assertEqual(actual_message, expected_message)
 
-    def test_show_results_0_correct(self):
+    def test_show_results_4_correct(self):
         self.app.score = 4
         self.app.show_results()
         expected_message = "You scored 4/5. Great job!"
         actual_message = self.app.question_label.cget("text")
         self.assertEqual(actual_message, expected_message)
 
-    def test_show_results_0_correct(self):
+    def test_show_results_5_correct(self):
         self.app.score = 5
         self.app.show_results()
         expected_message = "You scored 5/5. Great job!"

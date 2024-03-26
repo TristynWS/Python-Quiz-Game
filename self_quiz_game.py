@@ -5,8 +5,8 @@ class QuizApp:
     def __init__(self, root):
         self.root = root
         self.root.title("True or False Quiz")
-        self.root.geometry("400x300")  # Fixed size window
-        self.root.configure(bg="#f0f0f0")  # Set background color
+        self.root.geometry("400x300")  
+        self.root.configure(bg="grey")  
 
         self.questions = [
             ("Tristyn has been bitten by a baby rattlesnake.", True),
@@ -18,21 +18,22 @@ class QuizApp:
         self.current_question_index = 0
         self.score = 0
 
-        self.question_label = tk.Label(self.root, text="", wraplength=380, bg="#f0f0f0", fg="#333333", font=("Arial", 12))
+        self.question_label = tk.Label(self.root, text="", wraplength=380, bg="grey", fg="#E8E8E8", font=("Helvetica", 16))
         self.question_label.pack(pady=20)
 
-        self.true_button = tk.Button(self.root, text="True", command=lambda: self.evaluate_answer(True), bg="#b8d8d8", fg="#333333", font=("Arial", 10))
+        self.true_button = tk.Button(self.root, text="True", command=lambda: self.evaluate_answer(True), bg="#7A6B8E", fg="#E8E8E8", font=("Helvetica", 18))
         self.true_button.pack(side="left", padx=20)
 
-        self.false_button = tk.Button(self.root, text="False", command=lambda: self.evaluate_answer(False), bg="#b8d8d8", fg="#333333", font=("Arial", 10))
+        self.false_button = tk.Button(self.root, text="False", command=lambda: self.evaluate_answer(False), bg="#7A6B8E", fg="#E8E8E8", font=("Helvetica", 18))
         self.false_button.pack(side="right", padx=20)
 
-        self.next_button = tk.Button(self.root, text="Next", command=self.next_question, bg="#b8d8d8", fg="#333333", font=("Arial", 10))
+        self.next_button = tk.Button(self.root, text="Next", command=self.next_question, bg="#7A6B8E", fg="#E8E8E8", font=("Helvetica", 12))
         self.next_button.pack(pady=20)
         self.next_button.pack_forget()  # Hide the Next button at first
 
-        self.display_question()  # Display the first question
-
+        self.display_question()  
+        
+        
     def display_question(self):
         question_text = self.questions[self.current_question_index][0]
         self.question_label.config(text=question_text)
@@ -78,4 +79,4 @@ class QuizApp:
 if __name__ == "__main__":
     root = tk.Tk()
     app = QuizApp(root)
-    root.mainloop()
+    root.mainloop()  
