@@ -21,15 +21,15 @@ class QuizApp:
         self.question_label = tk.Label(self.root, text="", wraplength=380, bg="#f0f0f0", fg="#333333", font=("Arial", 12))
         self.question_label.pack(pady=20)
 
-        self.true_button = tk.Button(self.root, text="True", command=self.check_true, bg="#b8d8d8", fg="#333333", font=("Arial", 10))
+        self.true_button = tk.Button(self.root, text="True", command=lambda: self.evaluate_answer(True), bg="#b8d8d8", fg="#333333", font=("Arial", 10))
         self.true_button.pack(side="left", padx=20)
 
-        self.false_button = tk.Button(self.root, text="False", command=self.check_false, bg="#b8d8d8", fg="#333333", font=("Arial", 10))
+        self.false_button = tk.Button(self.root, text="False", command=lambda: self.evaluate_answer(False), bg="#b8d8d8", fg="#333333", font=("Arial", 10))
         self.false_button.pack(side="right", padx=20)
 
         self.next_button = tk.Button(self.root, text="Next", command=self.next_question, bg="#b8d8d8", fg="#333333", font=("Arial", 10))
         self.next_button.pack(pady=20)
-        self.next_button.pack_forget()  # Hide the Next button initially
+        self.next_button.pack_forget()  # Hide the Next button at first
 
         self.display_question()  # Display the first question
 
@@ -37,19 +37,13 @@ class QuizApp:
         question_text = self.questions[self.current_question_index][0]
         self.question_label.config(text=question_text)
 
-    def check_true(self):
-        self.evaluate_answer(True)
-
-    def check_false(self):
-        self.evaluate_answer(False)
-
     def evaluate_answer(self, selected_answer):
         correct_answer = self.questions[self.current_question_index][1]
         if selected_answer == correct_answer:
             self.score += 1
-            messagebox.showinfo("Correct", "Correct! Good job!")
+            self.question_label.config(text="Correct! Good job!")
         else:
-            messagebox.showerror("Incorrect", "Nope, nice try!")
+            self.question_label.config(text="Nope, nice try!")
 
         # Show the Next button after an answer is selected
         self.next_button.pack(pady=20)
@@ -71,12 +65,15 @@ class QuizApp:
         message = f"You scored {self.score}/5."
         if self.score >= 4:
             message += " Great job!"
-        elif self.score >= 3:
+        elif self.score == 3:
             message += " Better luck next time!"
         else:
             message += " Maybe try again?"
-        messagebox.showinfo("Quiz Complete", message)
-        self.root.destroy()
+        self.question_label.config(text=message)
+        self.true_button.pack_forget()
+        self.false_button.pack_forget()
+        self.next_button.config(text="Quit", command=self.root.destroy)
+        self.next_button.pack(pady=20)
 
 if __name__ == "__main__":
     root = tk.Tk()
