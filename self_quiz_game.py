@@ -4,10 +4,10 @@ from tkinter import messagebox
 class QuizApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("True or False Quiz")
+        self.root.title("Get to know Tristyn!")
         self.root.geometry("400x300")  
-        self.root.configure(bg="grey")  
-
+        self.root.configure(bg="#555555")
+       
         self.questions = [
             ("Tristyn has been bitten by a baby rattlesnake.", True),
             ("Tristyn wrestled a bear once.", False),
@@ -18,25 +18,25 @@ class QuizApp:
         self.current_question_index = 0
         self.score = 0
 
-        self.question_label = tk.Label(self.root, text="", wraplength=380, bg="grey", fg="#E8E8E8", font=("Helvetica", 16))
+        self.question_label = tk.Label(self.root, text="", wraplength=380, bg="#555555", fg="#E8E8E8", font=("Helvetica", 16))
         self.question_label.pack(pady=20)
 
         self.true_button = tk.Button(self.root, text="True", command=lambda: self.evaluate_answer(True), bg="#7A6B8E", fg="#E8E8E8", font=("Helvetica", 18))
-        self.true_button.pack(side="left", padx=20)
-
         self.false_button = tk.Button(self.root, text="False", command=lambda: self.evaluate_answer(False), bg="#7A6B8E", fg="#E8E8E8", font=("Helvetica", 18))
-        self.false_button.pack(side="right", padx=20)
-
         self.next_button = tk.Button(self.root, text="Next", command=self.next_question, bg="#7A6B8E", fg="#E8E8E8", font=("Helvetica", 12))
+        self.true_button.pack(side="left", padx=20)
+        self.false_button.pack(side="right", padx=20)
         self.next_button.pack(pady=20)
         self.next_button.pack_forget()  # Hide the Next button at first
 
         self.display_question()  
-        
-        
+
     def display_question(self):
         question_text = self.questions[self.current_question_index][0]
-        self.question_label.config(text=question_text)
+        self.fade_in_text(question_text)
+
+    def fade_in_text(self, text):
+        self.question_label.config(text=text)
 
     def evaluate_answer(self, selected_answer):
         correct_answer = self.questions[self.current_question_index][1]
