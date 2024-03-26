@@ -75,7 +75,7 @@ class QuizApp:
         self.false_button.pack_forget()
         self.next_button.config(text="Quit", command=self.root.destroy)
         self.next_button.pack(pady=20)
-
+ 
 if __name__ == "__main__":
     root = tk.Tk()
     app = QuizApp(root)
